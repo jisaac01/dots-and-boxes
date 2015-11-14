@@ -29,33 +29,112 @@
 # end
 
 
-# class Board
-#   attr_accessor :squares, :player_id, :opponent_id
-#
-#   def initialize(squares, player_id)
-#     self.squares = squares
-#     self.player_id = player_id
-#     self.opponent_id = player_id == 1 ? 2 : 1
-#   end
-#
-#   def to_s
-#     puts "Player #{player_id}'s board: "
-#     squares.each do |row|
-#       puts " - - - "
-#       puts "|#{row.join('|').gsub('0',' ').gsub('1','X').gsub('2','O')}|"
-#     end
-#       puts " - - - "
-#   end
-#
-#   def each_square(&block)
-#     squares.each_with_index do |row, index|
-#       row.each_with_index do |val, jindex|
-#         yield index, jindex
-#       end
-#     end
-#   end
-#
-# end
+class Board
+  attr_accessor :squares, :player_id, :opponent_id
+
+  def initialize(squares, player_id)
+    self.squares = squares
+    self.player_id = player_id
+    self.opponent_id = player_id == 1 ? 2 : 1
+  end
+
+  def to_s
+    # empty_board =
+    #   [['*',' ','*',' ','*',' ','*',' ','*',' ','*',' ','*'], # 0: 2, 1: 4, : 2: 6, 3: 8, 4: 10, 5: 12, 6: 14
+    #    [' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '], # 0: 1,3, 1: 3,5 , 2: 5,7, 3: 7,9, 4: 9,11, 5: 11,13, 6: 13,15
+    #    ['*',' ','*',' ','*',' ','*',' ','*',' ','*',' ','*'], # 0: 2, 1: 4, : 2: 6, 3: 8, 4: 10, 5: 12, 6: 14
+    #    [' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '],
+    #    ['*',' ','*',' ','*',' ','*',' ','*',' ','*',' ','*'],
+    #    [' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '],
+    #    ['*',' ','*',' ','*',' ','*',' ','*',' ','*',' ','*'],
+    #    [' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '],
+    #    ['*',' ','*',' ','*',' ','*',' ','*',' ','*',' ','*'],
+    #    [' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '],
+    #    ['*',' ','*',' ','*',' ','*',' ','*',' ','*',' ','*'],
+    #    [' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '],
+    #    ['*',' ','*',' ','*',' ','*',' ','*',' ','*',' ','*'],
+    #   ]
+    puts "Player #{player_id}'s board: "
+    squares.each_with_index do |row, index|
+      if index == 0
+        puts "#{seperator}#{top_line(row[0])}#{seperator}#{top_line(row[1])}#{seperator}#{top_line(row[2])}#{seperator}#{top_line(row[3])}#{seperator}#{top_line(row[4])}#{seperator}"
+      end
+      puts " #{left_line(row[0])} #{player(row[0])} #{left_line(row[1])} #{player(row[1])} #{left_line(row[2])} #{player(row[2])} #{left_line(row[3])} #{player(row[3])} #{left_line(row[4])} #{player(row[4])} #{right_line(row[4])}"
+      puts "#{seperator}#{bottom_line(row[0])}#{seperator}#{bottom_line(row[1])}#{seperator}#{bottom_line(row[2])}#{seperator}#{bottom_line(row[3])}#{seperator}#{bottom_line(row[4])}#{seperator}"
+    end
+  end
+
+  def player(square)
+    if square == 15
+      '1'
+    elsif square == 31
+      '2'
+    else
+      ' '
+    end
+  end
+  
+  def seperator
+    " · "
+  end
+  
+  def top_line(square)
+    if top?(square)
+      '—' 
+    else
+      ' '
+    end
+  end
+  
+  def bottom_line(square)
+    if bottom?(square)
+      '—' 
+    else
+      ' '
+    end
+  end
+
+  def right_line(square)
+    if right?(square)
+      '|' 
+    else
+      ' '
+    end
+  end
+
+  def left_line(square)
+    if left?(square)
+      '|' 
+    else
+      ' '
+    end
+  end
+    
+  def top?(square)
+    (square & 1) != 0
+  end  
+
+  def bottom?(square)
+    (square & 4) != 0
+  end  
+
+  def right?(square)
+    (square & 2) != 0
+  end  
+  
+  def left?(square)
+    (square & 8) != 0
+  end
+
+  def each_square(&block)
+    squares.each_with_index do |row, index|
+      row.each_with_index do |val, jindex|
+        yield index, jindex
+      end
+    end
+  end
+
+end
 
 # facts about the game board: valid moves, winning state
 # class BoardLogic
@@ -112,6 +191,8 @@ class Runner
   VERBOSE = true
   def self.run
     squares, player_id = Reader.read
+    board = Board.new(squares, player_id)
+    board.to_s
     # current_board = BoardLogic.new(squares, player_id)
     # game = Game.new(current_board)
     # ai = Intelligence.new(game)
