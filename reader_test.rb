@@ -1,18 +1,5 @@
 require 'test/unit'
-
-module Running
-  def run
-    puts "Run is Stubbed!"
-  end
-end
-
-class Runner
-  VERBOSE=false
-  class << self
-    prepend Running
-  end
-end
-
+require_relative 'stub_runner'
 require_relative 'dots-and-boxes'
 
 class ReaderTest < Test::Unit::TestCase
@@ -35,7 +22,6 @@ class ReaderTest < Test::Unit::TestCase
     assert_equal 2, player_id
   end
 
-end
   # def test_board__removal_candidates__starting_position
   #   input_filename = "input_1.txt"
   #   board = make_board(input_filename)
@@ -145,5 +131,4 @@ end
     write.close                # close pipe
     $stdin = stdin             # restore $stdin
   end
-
 end
