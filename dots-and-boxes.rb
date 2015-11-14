@@ -99,7 +99,7 @@ class Reader
     end
     
     player_id = gets.to_i
-    if VERBOSE
+    if Runner::VERBOSE
       puts "Reader"
       puts "squares: #{squares}"
       puts "player_id: #{player_id}"
@@ -108,15 +108,17 @@ class Reader
   end
 end
 
-VERBOSE = true
-def run
-  squares, player_id = Reader.read
-  # current_board = BoardLogic.new(squares, player_id)
-  # game = Game.new(current_board)
-  # ai = Intelligence.new(game)
-  # puts ai.move
-  # puts current_board.all_open_squares.to_s
-  # puts game.possible_moves.shuffle.to_s
+class Runner
+  VERBOSE = true
+  def self.run
+    squares, player_id = Reader.read
+    # current_board = BoardLogic.new(squares, player_id)
+    # game = Game.new(current_board)
+    # ai = Intelligence.new(game)
+    # puts ai.move
+    # puts current_board.all_open_squares.to_s
+    # puts game.possible_moves.shuffle.to_s
+  end
 end
 
-run
+Runner.run

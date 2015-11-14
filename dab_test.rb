@@ -1,23 +1,41 @@
 require 'test/unit'
-require_relative 'tic-tac-toe'
 
-class TicTacToeTest < Test::Unit::TestCase
+module Running
+  def run
+    puts "Run is Stubbed!"
+  end
+end
 
-  def test_board__new
+class Runner
+  VERBOSE=false
+  class << self
+    prepend Running
+  end
+end
+
+require_relative 'dots-and-boxes'
+
+class ReaderTest < Test::Unit::TestCase
+
+  def test_reader__new
     input_filename = "input_1.txt"
-    board = make_board(input_filename)
+    squares, player_id = read_file(input_filename)
 
-    assert_board_initialization(input_filename, board)
-
+    expected = [[0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0]]
+    assert_equal expected, squares
+    assert_equal 1, player_id
   end
 
-  def test_board__some_moves
+  def test_reader__some_moves
     input_filename = "input_2.txt"
-    board = make_board(input_filename)
+    squares, player_id = read_file(input_filename)
 
-    assert_board_initialization(input_filename, board)
+    expected = [[0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 2, 8], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0]]
+    assert_equal expected, squares
+    assert_equal 2, player_id
   end
 
+end
   # def test_board__removal_candidates__starting_position
   #   input_filename = "input_1.txt"
   #   board = make_board(input_filename)
@@ -105,8 +123,8 @@ class TicTacToeTest < Test::Unit::TestCase
     end
   end
 
-  def make_board(input_filename)
-    b = nil
+  def read_file(input_filename)
+    squares, player_id = nil
     with_stdin do |command_line|
       File.open(input_filename,"r") do |file|
         file.each do |line|
@@ -115,9 +133,8 @@ class TicTacToeTest < Test::Unit::TestCase
       end
 
       squares, player_id = Reader.read
-      b = Board.new(squares, player_id)
     end
-    b
+    [squares, player_id]
   end
 
   def with_stdin
