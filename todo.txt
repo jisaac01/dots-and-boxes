@@ -1,0 +1,9 @@
+dots and boxes todo:
+
+1) Make a random bot
+  - accept input
+  - figure out possible moves
+  - pick one at random
+  - output the move
+2) Make a framework to have it play itself
+3) MiniMax

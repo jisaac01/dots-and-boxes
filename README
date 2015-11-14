@@ -1,0 +1,5 @@
+Running tic-tac-toe for 1 move:
+ruby dots-and-boxes.rb < input_1.txt
+
+Running framework (for a whole game between 2 bots)
+ruby dab_framework.rb dots-and-boxes.rb dots-and-boxes.rb

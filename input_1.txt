@@ -1,0 +1,7 @@
+0 0 0 0 0
+0 0 0 0 0
+0 0 0 0 0
+0 0 0 0 0
+0 0 0 0 0
+1
+#regular starting position, player 1 moves
