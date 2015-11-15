@@ -39,36 +39,21 @@ class Board
   end
 
   def to_s
-    # empty_board =
-    #   [['*',' ','*',' ','*',' ','*',' ','*',' ','*',' ','*'], # 0: 2, 1: 4, : 2: 6, 3: 8, 4: 10, 5: 12, 6: 14
-    #    [' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '], # 0: 1,3, 1: 3,5 , 2: 5,7, 3: 7,9, 4: 9,11, 5: 11,13, 6: 13,15
-    #    ['*',' ','*',' ','*',' ','*',' ','*',' ','*',' ','*'], # 0: 2, 1: 4, : 2: 6, 3: 8, 4: 10, 5: 12, 6: 14
-    #    [' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '],
-    #    ['*',' ','*',' ','*',' ','*',' ','*',' ','*',' ','*'],
-    #    [' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '],
-    #    ['*',' ','*',' ','*',' ','*',' ','*',' ','*',' ','*'],
-    #    [' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '],
-    #    ['*',' ','*',' ','*',' ','*',' ','*',' ','*',' ','*'],
-    #    [' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '],
-    #    ['*',' ','*',' ','*',' ','*',' ','*',' ','*',' ','*'],
-    #    [' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '],
-    #    ['*',' ','*',' ','*',' ','*',' ','*',' ','*',' ','*'],
-    #   ]
-    puts "Player #{player_id}'s board: "
+    str = "Player #{player_id}'s board: "
+
     squares.each_with_index do |row, index|
       if index == 0
-        puts "#{seperator}#{top_line(row[0])}#{seperator}#{top_line(row[1])}#{seperator}#{top_line(row[2])}#{seperator}#{top_line(row[3])}#{seperator}#{top_line(row[4])}#{seperator}"
+        str << "\n#{seperator}#{top_line(row[0])}#{seperator}#{top_line(row[1])}#{seperator}#{top_line(row[2])}#{seperator}#{top_line(row[3])}#{seperator}#{top_line(row[4])}#{seperator}"
       end
-      puts " #{left_line(row[0])} #{player(row[0])} #{left_line(row[1])} #{player(row[1])} #{left_line(row[2])} #{player(row[2])} #{left_line(row[3])} #{player(row[3])} #{left_line(row[4])} #{player(row[4])} #{right_line(row[4])}"
-      puts "#{seperator}#{bottom_line(row[0])}#{seperator}#{bottom_line(row[1])}#{seperator}#{bottom_line(row[2])}#{seperator}#{bottom_line(row[3])}#{seperator}#{bottom_line(row[4])}#{seperator}"
+      str << "\n #{left_line(row[0])} #{player(row[0])} #{left_line(row[1])} #{player(row[1])} #{left_line(row[2])} #{player(row[2])} #{left_line(row[3])} #{player(row[3])} #{left_line(row[4])} #{player(row[4])} #{right_line(row[4])}"
+      str << "\n#{seperator}#{bottom_line(row[0])}#{seperator}#{bottom_line(row[1])}#{seperator}#{bottom_line(row[2])}#{seperator}#{bottom_line(row[3])}#{seperator}#{bottom_line(row[4])}#{seperator}"
     end
+    puts str
   end
 
   def player(square)
-    if square == 15
-      '1'
-    elsif square == 31
-      '2'
+    if Square.player?(square) 
+      Square.player(square)
     else
       ' '
     end
@@ -79,7 +64,7 @@ class Board
   end
   
   def top_line(square)
-    if top?(square)
+    if Square.top?(square)
       '—' 
     else
       ' '
@@ -87,7 +72,7 @@ class Board
   end
   
   def bottom_line(square)
-    if bottom?(square)
+    if Square.bottom?(square)
       '—' 
     else
       ' '
@@ -95,7 +80,7 @@ class Board
   end
 
   def right_line(square)
-    if right?(square)
+    if Square.right?(square)
       '|' 
     else
       ' '
@@ -103,27 +88,11 @@ class Board
   end
 
   def left_line(square)
-    if left?(square)
+    if Square.left?(square)
       '|' 
     else
       ' '
     end
-  end
-    
-  def top?(square)
-    (square & 1) != 0
-  end  
-
-  def bottom?(square)
-    (square & 4) != 0
-  end  
-
-  def right?(square)
-    (square & 2) != 0
-  end  
-  
-  def left?(square)
-    (square & 8) != 0
   end
 
   def each_square(&block)
@@ -134,6 +103,36 @@ class Board
     end
   end
 
+end
+
+class Square  
+  def self.player?(value)
+    player(value)
+  end
+  
+  def self.player(value)
+    if value == 15
+      1
+    elsif value == 31
+      2
+    end
+  end
+  
+  def self.top?(value)
+    (value & 1) != 0
+  end  
+
+  def self.bottom?(value)
+    (value & 4) != 0
+  end  
+
+  def self.right?(value)
+    (value & 2) != 0
+  end  
+  
+  def self.left?(value)
+    (value & 8) != 0
+  end
 end
 
 # facts about the game board: valid moves, winning state
