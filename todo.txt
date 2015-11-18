@@ -1,9 +1,8 @@
 dots and boxes todo:
 
-1) Make a random bot
-  - accept input
-  - figure out possible moves
-  - pick one at random
-  - output the move
 2) Make a framework to have it play itself
-3) MiniMax
+  - get the framework to make another move for player if the last one resulted in a higher score
+3) figure out bug where player 1 does not score
+4) choose box with 3 sides
+5) avoid box with 2 sides
+6) MiniMax
