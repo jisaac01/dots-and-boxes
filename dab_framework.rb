@@ -30,7 +30,7 @@ class Board
     LEFT => :left
   }
   
-  attr_accessor :board, :valid
+  attr_accessor :board, :valid, :new_square_enclosed
   
   def initialize
     self.board = [
@@ -40,6 +40,12 @@ class Board
      [0, 0, 0, 0, 0],
      [0, 0, 0, 0, 0]
     ]
+  end
+  
+  def reset
+    self.valid = nil
+    self.new_square_enclosed = false
+    @scores = nil
   end
   
   def to_s
@@ -100,13 +106,14 @@ class Board
   end
   
   def scores
+    return @scores if @scores
     player_1_score = 0
     player_2_score = 0
     each_square do |row, column|
       player_1_score += 1 if board[row][column] == 15
       player_2_score += 1 if board[row][column] == 31
     end
-    [player_1_score, player_2_score]
+    @scores = [player_1_score, player_2_score]
   end
       
   def game_result
@@ -135,8 +142,11 @@ class Board
     # puts "before: #{board[move.row][move.col]}"
     board[move.row][move.col] |= bit_side(move.side)
     
-    if (board[move.row][move.col] & 15) == 15 && (player_id == 2)
-      board[move.row][move.col] |= 16
+    if (board[move.row][move.col] & 15) == 15
+      self.new_square_enclosed = true
+      if player_id == 2
+        board[move.row][move.col] |= 16
+      end
     end
     
     move_neighbor(move, player_id)
@@ -272,7 +282,9 @@ turn = 1
 # while the current player is not surrounded
 loop do 
   puts "Turn #{turn}, player #{current_player}"
-
+  
+  board.reset
+  
   # run the file with board + player_id as input
   cmd = "ruby #{player_program[current_player]}"
   move = remove = error = nil
@@ -314,8 +326,14 @@ loop do
 
   turn = turn + 1
   # output the new board
+  player_1_score, player_2_score = board.scores
+  puts "Current score: P1 #{player_1_score}, P2 #{player_2_score}"
   puts board.to_s
-  current_player = (current_player == 1 ? 2 : 1)
+  #s switch players unless there was a new box made
+  unless board.new_square_enclosed
+    current_player = (current_player == 1 ? 2 : 1)
+  end
+  
   if result = board.game_result
     puts "Winner: #{result}"
     break 
