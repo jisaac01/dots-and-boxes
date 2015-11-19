@@ -309,26 +309,22 @@ loop do
 
   move_array = move.split(' ').map(&:to_i)
   move = Move.new(*move_array)
+
   # verify that the move is valid
   if board.valid?(move)
-    # puts "Before:"
-    # puts board.inspect
     board.move(move, current_player)
-    # puts "After:"
-    # puts board.inspect
   else
-  # if board.valid_square(move.first, move.last)
-  #   board.board[move.first][move.last] = current_player
-  # else
-    # puts "invalid move: #{board.valid}"
+    puts "invalid move: #{board.valid}"
     break
   end  
 
   turn = turn + 1
+
   # output the new board
   player_1_score, player_2_score = board.scores
   puts "Current score: P1 #{player_1_score}, P2 #{player_2_score}"
   puts board.to_s
+
   #s switch players unless there was a new box made
   unless board.new_square_enclosed
     current_player = (current_player == 1 ? 2 : 1)

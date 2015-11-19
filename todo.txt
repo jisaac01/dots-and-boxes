@@ -1,8 +1,5 @@
 dots and boxes todo:
 
-2) Make a framework to have it play itself
-  - get the framework to make another move for player if the last one resulted in a higher score
-3) figure out bug where player 1 does not score
-4) choose box with 3 sides
-5) avoid box with 2 sides
+2) avoid box with 2 sides?
+2) choose 2 boxes with 3 sides first
 6) MiniMax
