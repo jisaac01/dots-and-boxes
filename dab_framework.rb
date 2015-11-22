@@ -281,12 +281,16 @@ current_player = 1
 turn = 1
 # while the current player is not surrounded
 loop do 
+  puts "-------------------------------------------"
   puts "Turn #{turn}, player #{current_player}"
   
   board.reset
   
   # run the file with board + player_id as input
+  t0 = Time.now
   cmd = "ruby #{player_program[current_player]}"
+  t1 = Time.now
+  puts "Total time: #{t1-t0}"
   move = remove = error = nil
   Open3.popen3(cmd) do |stdin, stdout, stderr|
     board.board.each do |row|

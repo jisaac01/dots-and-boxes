@@ -1,6 +1,6 @@
 BOARDSIZE = 5
-DEBUG = true
-TIMEOUT = 60 * 4.5
+DEBUG = false
+TIMEOUT = 4.5
 
 def debug(str, depth=0)
   if DEBUG
@@ -19,11 +19,11 @@ class PerfectPlayer
     three_sided_moves, the_rest = BoardLogic.all_possible_moves(board).partition do
       |move| Square.three_sided?(board.squares[move.row][move.col]) 
     end
-    
+  
     two_sided_moves, the_rest = the_rest.partition do |move|
       Square.two_sided?(board.squares[move.row][move.col])
     end
-    
+  
     two_side_neighbors, the_rest = the_rest.partition do |move|      
       !two_sided_moves.empty? && two_sided_moves.include?(move.neighbor(board))
     end
@@ -32,6 +32,7 @@ class PerfectPlayer
   end
   
   def get_best_move
+    #debug get_ordered_moves.flatten.map(&:to_s).inspect
     three_sided_moves, the_rest, two_sided_moves = get_ordered_moves
     if the_rest.empty? && three_sided_moves.size < 3
       @max_depth = 3
@@ -263,13 +264,6 @@ class Square
     (value & LEFT) != 0
   end
   
-  # def self.bit_side(side)
-  #   # puts "bit_side for #{SIDES[side]}: #{side}"
-  #   return TOP_BIT if side == TOP
-  #   return RIGHT_BIT if side == RIGHT
-  #   return BOTTOM_BIT if side == BOTTOM
-  #   return LEFT_BIT if side == LEFT
-  # end
   
   def self.open_sides(value)
     sides = []
