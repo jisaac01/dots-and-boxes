@@ -395,22 +395,16 @@ class Reader
     end
     
     player_id = gets.to_i
-    if Runner::VERBOSE
-      puts "Reader"
-      puts "squares: #{squares}"
-      puts "player_id: #{player_id}"
-    end
     [squares, player_id]
   end
 end
 
 class Runner
-  VERBOSE = false
   def self.run
     $start_time = Time.now
     squares, player_id = Reader.read
     board = Board.new(squares, player_id)
-    board.to_s if VERBOSE
+    debug board.to_s
     
     puts PerfectPlayer.new(board).get_best_move
     debug("total time: #{Time.now - $start_time}")

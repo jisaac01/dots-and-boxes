@@ -1,5 +1,4 @@
 dots and boxes todo:
 
-2) avoid box with 2 sides?
-2) choose 2 boxes with 3 sides first
-6) MiniMax
+1) If I have to make a 3, which 3 should I make?
+2) Is there a strategy where I can force the smallest runs (so that I'm not forced into allowing a bot to pick up a bunch of squares?)

@@ -297,7 +297,9 @@ loop do
     puts "stdout.gets: #{move = stdout.gets}"
     # puts "stdout.gets: #{random_junk = stdout.gets}"
     # puts "stdout.gets: #{random_junk = stdout.gets}"
-    puts "stderr.gets: #{error = stderr.gets}"
+    while (err = stderr.gets)
+      puts "stderr.gets: #{err}"
+    end
   end
   
   # verify that the output is valid
@@ -324,6 +326,8 @@ loop do
   player_1_score, player_2_score = board.scores
   puts "Current score: P1 #{player_1_score}, P2 #{player_2_score}"
   puts board.to_s
+  
+  puts board.board.inspect
 
   #s switch players unless there was a new box made
   unless board.new_square_enclosed
